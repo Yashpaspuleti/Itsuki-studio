@@ -1,0 +1,20 @@
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: itsuki_studio
+      MYSQL_USER: itsuki
+      MYSQL_PASSWORD: change-me
+      MYSQL_ROOT_PASSWORD: local-root-change-me
+    ports:
+      - "3306:3306"
+    volumes:
+      - itsuki_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-plocal-root-change-me"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+volumes:
+  itsuki_mysql:

@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  phone        String?
+  role         UserRole @default(CUSTOMER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orders       Order[]
+}
+
+model Product {
+  id          String      @id
+  slug        String      @unique
+  name        String
+  description String      @db.Text
+  pricePaise  Int
+  imageUrl    String
+  active      Boolean     @default(true)
+  stock       Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+}
+
+model Order {
+  id                 String        @id @default(cuid())
+  userId             String
+  user               User          @relation(fields: [userId], references: [id])
+  status             OrderStatus   @default(PENDING)
+  totalPaise         Int
+  currency           String        @default("INR")
+  shippingName       String
+  shippingPhone      String
+  shippingLine1      String        @db.VarChar(255)
+  shippingLine2      String?       @db.VarChar(255)
+  shippingCity       String        @db.VarChar(100)
+  shippingState      String        @db.VarChar(100)
+  shippingPostalCode String        @db.VarChar(12)
+  razorpayOrderId    String?       @unique
+  razorpayPaymentId  String?       @unique
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  items              OrderItem[]
+  paymentEvents      PaymentEvent[]
+}
+
+model OrderItem {
+  id             String  @id @default(cuid())
+  orderId        String
+  order          Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId      String
+  product        Product @relation(fields: [productId], references: [id])
+  quantity       Int
+  unitPricePaise Int
+}
+
+model PaymentEvent {
+  id              String   @id @default(cuid())
+  provider        String
+  providerEventId String   @unique
+  orderId         String?
+  order           Order?   @relation(fields: [orderId], references: [id])
+  eventType       String
+  receivedAt      DateTime @default(now())
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  CANCELLED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+}
