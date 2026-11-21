@@ -16,7 +16,6 @@ import { apiRequest } from "./lib/api";
 import "./styles.css";
 import { AuthProvider, CartProvider, useCart } from "./context/store";
 import {
-  AccountPage,
   AdminPage,
   AuthPage,
   CartPage,
@@ -27,6 +26,7 @@ import {
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { AccountPage } from "./components/user/AccountPage";
 
 type ProductsResponse = {
   products: Array<{

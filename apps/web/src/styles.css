@@ -1081,11 +1081,15 @@ main {
   border-bottom: 1px solid var(--color-sand);
 }
 
+.values.section {
+  padding-block: var(--space-6);
+}
+
 .values-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-6);
-  padding: var(--space-10) var(--space-6);
+  padding: var(--space-6) var(--space-6);
   max-width: 1120px;
   margin-inline: auto;
 }
@@ -1102,25 +1106,33 @@ main {
   width: 56px;
   height: 56px;
   border-radius: var(--radius-full);
-  background: var(--brand-blue);
-  border: 1px solid var(--color-sand);
+  background: transparent;
+  border: 0;
   display: grid;
   place-items: center;
   margin-bottom: var(--space-4);
-  transition: all var(--transition-base);
+  transition:
+    transform var(--transition-base),
+    color var(--transition-base);
 }
 
 .value-item:hover .value-icon {
-  background: var(--brand-red);
-  border-color: var(--brand-red);
+  background: transparent;
+  border-color: transparent;
+  transform: translateY(-3px);
 }
 
 .value-icon svg {
   color: var(--color-ink);
+  background: transparent;
+  transition:
+    color var(--transition-base),
+    transform var(--transition-base);
 }
 
 .value-item:hover .value-icon svg {
-  color: var(--color-white);
+  color: var(--brand-red);
+  transform: scale(1.08);
 }
 
 .value-title {
@@ -1495,8 +1507,7 @@ body {
 
 .bag-count,
 .product-badge--gold,
-.feature-tag svg,
-.value-icon svg {
+.feature-tag svg {
   background: var(--brand-red);
 }
 
@@ -1628,17 +1639,18 @@ body {
 }
 
 .value-icon {
-  background: var(--brand-blue);
+  background: transparent;
   border-color: transparent;
 }
 
 .value-item:hover .value-icon {
-  background: var(--brand-red);
-  border-color: var(--brand-red);
+  background: transparent;
+  border-color: transparent;
 }
 
 .value-icon svg {
   color: var(--color-ink);
+  background: transparent;
 }
 
 .newsletter {
