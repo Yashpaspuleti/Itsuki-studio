@@ -50,14 +50,20 @@ export function ProductCard({ product, onAdd }: ProductCardProps) {
         <div>
           <h3 className="product-name">{product.name}</h3>
           <p className="product-tagline">{product.tagline}</p>
-          <span className="product-price">{formatPrice(product.pricePaise)}</span>
+          <span className="product-price">
+            {formatPrice(product.pricePaise)}
+          </span>
         </div>
 
         <button
           className={`btn-add-to-cart ${added ? "added" : ""}`}
           onClick={handleAdd}
           disabled={added}
-          aria-label={added ? `${product.name} added to bag` : `Add ${product.name} to bag`}
+          aria-label={
+            added
+              ? `${product.name} added to bag`
+              : `Add ${product.name} to bag`
+          }
           aria-pressed={added}
         >
           {added ? (
@@ -79,7 +85,11 @@ export function ProductCard({ product, onAdd }: ProductCardProps) {
           </span>
         )}
 
-        <div className="product-features" role="list" aria-label="Product features">
+        <div
+          className="product-features"
+          role="list"
+          aria-label="Product features"
+        >
           {features.map((feature, index) => (
             <span key={index} className="feature-tag" role="listitem">
               <feature.icon size={12} aria-hidden="true" />
